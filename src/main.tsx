@@ -1,7 +1,8 @@
 import { addListener } from './KeyboardAction';
-import { hidePopup } from './Popup';
+import { createPopup, hidePopup } from './Popup';
 
 window.onload = () => {
+    createPopup();
     addListener();
 }
 

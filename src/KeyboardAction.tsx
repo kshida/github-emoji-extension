@@ -1,6 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Popup, getPopup } from './Popup';
+import { getPopup, setFocusArea } from './Popup';
 
 export const addListener = (): void => {
     addListenerForSlashKey();
@@ -14,8 +12,6 @@ const addListenerForSlashKey = () => {
     document.addEventListener('keydown', (event: KeyboardEvent) => {
         // テキストエリアのDOMを取得
         const textAreaElement = document.activeElement instanceof HTMLTextAreaElement ? document.activeElement : null;
-        console.log("textAreaElement");
-        console.log(textAreaElement);
         // "/"押下、かつ先頭または半角スペースの直後の場合
         if (event.code === 'Slash' && textAreaElement && checkShowPopupCaretPosition(textAreaElement)) {
             event.preventDefault();
@@ -39,16 +35,10 @@ const initPopupPosition = (textAreaElement: HTMLTextAreaElement) => {
 
     // ポップアップを取得
     let popup = getPopup();
-    if (!popup) {
-        // TODO: GitHubに入った段階でポップアップを画面外に表示しておく
-        // 絵文字用ポップアップを生成
-        const app = document.createElement('div');
-        document.body.append(app);
-        ReactDOM.render(<Popup nowArea={textAreaElement}/>, app);
-        popup = getPopup();
-    }
+    if (!popup) return;
+    // 入力中のテキストエリアを設定
+    setFocusArea(textAreaElement);
 
-    // TODO: カーソル位置に移動させるのはスラッシュ押下時にする
     // カーソルの座標にポップアップの左下がくるように調整
     popup.style.display = '';
     popup.style.top = `${cursorY - 340}px`;

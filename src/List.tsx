@@ -19,8 +19,6 @@ export const List: React.FC<EmojiUseState> = (props) => {
     const [emojiList, setEmojiList] = useState([]);
 
     useEffect(() => {
-        // TODO: GitHubに入った段階で取得しておく
-        // TODO: アイコンパスは初回ビルド時にキャッシュで持っていても良いかも？APIのレスポンスでキャッシュを更新する
         // 絵文字データを取得
         axios.get('https://api.github.com/emojis')
             .then(res => {

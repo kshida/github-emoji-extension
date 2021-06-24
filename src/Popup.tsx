@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { List } from './List';
-import { TextArea } from './Interface';
 
 const POPUP_ID = 'popup-frame';
 
@@ -26,11 +26,14 @@ const useStyles = makeStyles({
         borderBottom: '1px solid rgba(0, 0, 0, .15)',
         height: '38px'
     },
-    // search: {
-    //   padding: '14px',
-    //   position: 'relative'
-    // },
 })
+
+export const createPopup = () => {
+    // 絵文字用ポップアップを生成
+    const app = document.createElement('div');
+    document.body.append(app);
+    ReactDOM.render(<Popup />, app);
+}
 
 export const getPopup = (): HTMLElement => {
     return document.getElementById(POPUP_ID)
@@ -50,20 +53,26 @@ export const hidePopup = () => {
     }
 }
 
-export const Popup: React.FC<TextArea> = (props) => {
+let focusTextArea: HTMLTextAreaElement = null;
+export const setFocusArea = (textAreaElement: HTMLTextAreaElement) => {
+    focusTextArea = textAreaElement;
+}
+
+export const getFocusArea = () => {
+    return focusTextArea;
+}
+
+export const Popup: React.FC = () => {
     const [emojiCode, setEmojiCode] = useState('');
-    const nowTextArea = props.nowArea;
     const classes = useStyles()
 
     useEffect(() => {
-        if (nowTextArea && emojiCode) {
-            const nowText = nowTextArea.value;
-            const caret = nowTextArea.selectionStart;
-            nowTextArea.value = `${nowText.substr(0, caret)}:${emojiCode}:${nowText.substr(caret)}`;
-            nowTextArea.focus();
-            console.log("nowTextArea");
-            console.log(nowTextArea);
-            }
+        if (focusTextArea && emojiCode) {
+            const nowText = focusTextArea.value;
+            const caret = focusTextArea.selectionStart;
+            focusTextArea.value = `${nowText.substr(0, caret)}:${emojiCode}:${nowText.substr(caret)}`;
+            focusTextArea.focus();
+        }
     }, [emojiCode])
 
     return (

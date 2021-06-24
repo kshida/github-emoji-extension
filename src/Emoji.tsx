@@ -13,7 +13,6 @@ const useStyles = makeStyles({
 
 const insertEmoji = (element: React.MouseEvent<HTMLSpanElement, MouseEvent>, setEmoji: React.Dispatch<React.SetStateAction<string>>): void => {
     const emojiStr = element.currentTarget.dataset.emojiKey;
-    console.log("Set Emoji");
     setEmoji(emojiStr);
 }
 
