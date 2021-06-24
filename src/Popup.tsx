@@ -16,6 +16,7 @@ const useStyles = makeStyles({
         borderRadius: '6px',
         border: '1px solid',
         overflow: 'scroll',
+        display: 'none',
     },
     content: {
         overflow: 'hidden',

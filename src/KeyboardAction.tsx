@@ -40,7 +40,7 @@ const initPopupPosition = (textAreaElement: HTMLTextAreaElement) => {
     setFocusArea(textAreaElement);
 
     // カーソルの座標にポップアップの左下がくるように調整
-    popup.style.display = '';
+    popup.style.display = 'block';
     popup.style.top = `${cursorY - 340}px`;
     popup.style.left = `${cursorX}px`;
 }
