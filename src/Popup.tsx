@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { List } from './List';
 
-const POPUP_ID = 'popup-frame';
+export const POPUP_ID = 'popup-frame';
 
 const useStyles = makeStyles({
     popup: {
         position: 'fixed',
         zIndex: 999,
-        width: '360px',
+        width: '346px',
         height: '340px',
         padding: '4px',
         backgroundColor: 'white',
@@ -72,6 +72,7 @@ export const Popup: React.FC = () => {
             const nowText = focusTextArea.value;
             const caret = focusTextArea.selectionStart;
             focusTextArea.value = `${nowText.substr(0, caret)}:${emojiCode}:${nowText.substr(caret)}`;
+            hidePopup();
             focusTextArea.focus();
         }
     }, [emojiCode])

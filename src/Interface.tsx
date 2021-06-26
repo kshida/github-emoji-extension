@@ -1,12 +1,19 @@
-export interface TextArea {
+export type TextArea = {
     nowArea: HTMLTextAreaElement;
 }
 
-export interface EmojiUseState {
+export type EmojiProps = {
+    emojiKey: string;
+    emojiPath: string;
+}
+
+export type EmojiUseState = {
     setEmoji: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export interface EmojiProps extends EmojiUseState {
-    value: string;
-    iconPath: string;
+export type EmojiPropsAndState = EmojiProps & EmojiUseState;
+
+export type EmojiCategorizedProps = {
+    category: string,
+    props: EmojiProps[]
 }
