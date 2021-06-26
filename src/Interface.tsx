@@ -5,6 +5,7 @@ export type TextArea = {
 export type EmojiProps = {
     emojiKey: string;
     emojiPath: string;
+    emojiIndex?: number;
 }
 
 export type EmojiUseState = {

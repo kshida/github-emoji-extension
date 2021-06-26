@@ -30,6 +30,10 @@ const insertEmoji = (element: React.MouseEvent<HTMLSpanElement, MouseEvent>, set
     setEmoji(emojiStr);
 }
 
+const sortByIndex = (aEmojiProps: EmojiProps, bEmojiProps: EmojiProps) => {
+    return aEmojiProps.emojiIndex - bEmojiProps.emojiIndex;
+}
+
 // 各カテゴリに分類された絵文字情報を読み込む
 export const CategorizeEmojiData = (emojiPropList: EmojiProps[]): EmojiCategorizedProps[] => {
 
@@ -38,6 +42,9 @@ export const CategorizeEmojiData = (emojiPropList: EmojiProps[]): EmojiCategoriz
         const isPeople = EmojiCategory.People.includes(prop.emojiKey);
         if (!isPeople) propsWithoutPe.push(prop);
         return isPeople;
+    }).map(peopleEmoji => {
+        peopleEmoji.emojiIndex = EmojiCategory.People.indexOf(peopleEmoji.emojiKey);
+        return peopleEmoji;
     })
 
     const propsWithoutPeNa: EmojiProps[] = [];
@@ -45,6 +52,9 @@ export const CategorizeEmojiData = (emojiPropList: EmojiProps[]): EmojiCategoriz
         const isNature = EmojiCategory.Nature.includes(prop.emojiKey);
         if (!isNature) propsWithoutPeNa.push(prop);
         return isNature;
+    }).map(natureEmoji => {
+        natureEmoji.emojiIndex = EmojiCategory.Nature.indexOf(natureEmoji.emojiKey);
+        return natureEmoji;
     })
 
     const propsWithoutPeNaOb: EmojiProps[] = [];
@@ -52,6 +62,9 @@ export const CategorizeEmojiData = (emojiPropList: EmojiProps[]): EmojiCategoriz
         const isObject = EmojiCategory.Objects.includes(prop.emojiKey);
         if (!isObject) propsWithoutPeNaOb.push(prop);
         return isObject;
+    }).map(objectEmoji => {
+        objectEmoji.emojiIndex = EmojiCategory.Objects.indexOf(objectEmoji.emojiKey);
+        return objectEmoji;
     })
 
     const propsWithoutPeNaObFo: EmojiProps[] = [];
@@ -59,6 +72,9 @@ export const CategorizeEmojiData = (emojiPropList: EmojiProps[]): EmojiCategoriz
         const isFood = EmojiCategory.Foods.includes(prop.emojiKey);
         if (!isFood) propsWithoutPeNaObFo.push(prop);
         return isFood;
+    }).map(foodEmoji => {
+        foodEmoji.emojiIndex = EmojiCategory.Foods.indexOf(foodEmoji.emojiKey);
+        return foodEmoji;
     })
 
     const propsWithoutPeNaObFoPl: EmojiProps[] = [];
@@ -66,6 +82,9 @@ export const CategorizeEmojiData = (emojiPropList: EmojiProps[]): EmojiCategoriz
         const isPlace = EmojiCategory.Places.includes(prop.emojiKey);
         if (!isPlace) propsWithoutPeNaObFoPl.push(prop);
         return isPlace;
+    }).map(placeEmoji => {
+        placeEmoji.emojiIndex = EmojiCategory.Places.indexOf(placeEmoji.emojiKey);
+        return placeEmoji;
     })
 
     const propsWithoutPeNaObFoPlVe: EmojiProps[] = [];
@@ -73,6 +92,9 @@ export const CategorizeEmojiData = (emojiPropList: EmojiProps[]): EmojiCategoriz
         const isVehicle = EmojiCategory.Vehicle.includes(prop.emojiKey);
         if (!isVehicle) propsWithoutPeNaObFoPlVe.push(prop);
         return isVehicle;
+    }).map(vehicleEmoji => {
+        vehicleEmoji.emojiIndex = EmojiCategory.Vehicle.indexOf(vehicleEmoji.emojiKey);
+        return vehicleEmoji;
     })
 
     const otherEmojis: EmojiProps[] = [];
@@ -80,7 +102,19 @@ export const CategorizeEmojiData = (emojiPropList: EmojiProps[]): EmojiCategoriz
         const isSymbol = EmojiCategory.Symbols.includes(prop.emojiKey);
         if (!isSymbol) otherEmojis.push(prop);
         return isSymbol;
+    }).map(symbolEmoji => {
+        symbolEmoji.emojiIndex = EmojiCategory.Symbols.indexOf(symbolEmoji.emojiKey);
+        return symbolEmoji;
     })
+
+    // ソートする
+    filteredPeopleEmojis.sort(sortByIndex);
+    filteredNatureEmojis.sort(sortByIndex);
+    filteredObjectEmojis.sort(sortByIndex);
+    filteredFoodEmojis.sort(sortByIndex);
+    filteredPlaceEmojis.sort(sortByIndex);
+    filteredVehicleEmojis.sort(sortByIndex);
+    filteredSymbolEmojis.sort(sortByIndex);
 
     const categorizedEmojis: EmojiCategorizedProps[] = [
         {
