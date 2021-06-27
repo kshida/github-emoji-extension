@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import { CategorizeEmojiData, Emoji } from './Emoji';
-import { EmojiUseState, EmojiProps } from './Interface';
+import { EmojiUseStateRefs, EmojiProps } from './Interface';
 
 const useStyles = makeStyles({
     ul: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles({
     },
 })
 
-export const List: React.FC<EmojiUseState> = (props) => {
+export const List: React.FC<EmojiUseStateRefs> = (props) => {
     const [emojiList, setEmojiList] = useState([]);
 
     useEffect(() => {
@@ -45,10 +45,10 @@ export const List: React.FC<EmojiUseState> = (props) => {
     const classes = useStyles()
     return (
         <div>
-            {emojiList.filter(emojiData => emojiData.props.length > 0).map(emojis => {
+            {emojiList.filter((emojiData, index) => index === 0 || emojiData.props.length > 0).map((emojis, index) => {
                 return (
                     <React.Fragment>
-                        <div className={classes.categoryTitle}>
+                        <div id={emojis.category} className={classes.categoryTitle} ref={props.refs[index]}>
                             <span className={classes.titleFont}>{emojis.category}</span>
                         </div>
                         <ul className={classes.ul}>

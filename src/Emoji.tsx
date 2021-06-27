@@ -4,6 +4,7 @@ import { EmojiCategorizedProps, EmojiProps, EmojiPropsAndState } from './Interfa
 import EmojiCategory from './emoji.json';
 
 export const EMOJI_CATEGORY_KEY = {
+    RECENTLY: 'Recently',
     PEOPLE: 'People',
     NATURE: 'Nature',
     OBJECTS: 'Objects',
@@ -36,6 +37,8 @@ const sortByIndex = (aEmojiProps: EmojiProps, bEmojiProps: EmojiProps) => {
 
 // 各カテゴリに分類された絵文字情報を読み込む
 export const CategorizeEmojiData = (emojiPropList: EmojiProps[]): EmojiCategorizedProps[] => {
+
+    const recentlyEmojis: EmojiProps[] = [];
 
     const propsWithoutPe: EmojiProps[] = [];
     const filteredPeopleEmojis = emojiPropList.filter(prop => {
@@ -117,6 +120,10 @@ export const CategorizeEmojiData = (emojiPropList: EmojiProps[]): EmojiCategoriz
     filteredSymbolEmojis.sort(sortByIndex);
 
     const categorizedEmojis: EmojiCategorizedProps[] = [
+        {
+            category: EMOJI_CATEGORY_KEY.RECENTLY,
+            props: recentlyEmojis
+        },
         {
             category: EMOJI_CATEGORY_KEY.PEOPLE,
             props: filteredPeopleEmojis

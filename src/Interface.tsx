@@ -8,9 +8,15 @@ export type EmojiProps = {
     emojiIndex?: number;
 }
 
+export type EmojiRef = {
+    refs: React.RefObject<HTMLDivElement>[];
+}
+
 export type EmojiUseState = {
     setEmoji: React.Dispatch<React.SetStateAction<string>>;
 }
+
+export type EmojiUseStateRefs = EmojiRef & EmojiUseState;
 
 export type EmojiPropsAndState = EmojiProps & EmojiUseState;
 

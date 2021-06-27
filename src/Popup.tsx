@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { List } from './List';
+import { Button } from './Button';
 import { ThemeStyleProps } from './Interface';
 
 export const POPUP_ID = 'popup-frame';
@@ -22,11 +23,14 @@ const useStyles = makeStyles({
         color: props.fontColor,
         borderRadius: '6px',
         border: '1px solid',
-        overflow: 'scroll',
         display: 'none',
     }),
+    category: {
+
+    },
     content: {
-        overflow: 'hidden',
+        height: '286px',
+        overflow: 'scroll',
         flexDirection: 'column'
     },
     group: {
@@ -116,6 +120,7 @@ const checkAndSetThemeColor = (themeColor: string) => {
     }
 }
 
+const refArray = [...Array(8)].map(() => React.createRef<HTMLDivElement>());
 export const Popup: React.FC = () => {
     const [emojiCode, setEmojiCode] = useState('');
     const themeProps: ThemeStyleProps = {
@@ -137,8 +142,11 @@ export const Popup: React.FC = () => {
 
     return (
         <div id={POPUP_ID} className={classes.popup}>
+            <div className={classes.category}>
+                <Button refs={refArray} />
+            </div>
             <div className={classes.content}>
-                <List setEmoji={setEmojiCode} />
+                <List setEmoji={setEmojiCode} refs={refArray} />
             </div>
         </div>
     )
