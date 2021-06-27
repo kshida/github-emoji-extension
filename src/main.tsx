@@ -1,7 +1,8 @@
 import { addListener } from './KeyboardAction';
-import { createPopup, hidePopup, POPUP_ID } from './Popup';
+import { createPopup, hidePopup, POPUP_ID, setSameThemeAsGithub } from './Popup';
 
 window.onload = () => {
+    setSameThemeAsGithub();
     createPopup();
     addListener();
 }

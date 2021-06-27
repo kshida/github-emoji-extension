@@ -18,3 +18,9 @@ export type EmojiCategorizedProps = {
     category: string,
     props: EmojiProps[]
 }
+
+export type ThemeStyleProps = {
+    backgroundColor: string,
+    borderColor: string,
+    fontColor: string
+}

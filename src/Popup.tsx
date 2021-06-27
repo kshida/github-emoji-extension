@@ -2,22 +2,29 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { List } from './List';
+import { ThemeStyleProps } from './Interface';
 
 export const POPUP_ID = 'popup-frame';
 
+let backgroundColorTheme = 'white';
+let borderColorTheme = 'white';
+let fontColorTheme = 'black';
+
 const useStyles = makeStyles({
-    popup: {
+    popup: (props: ThemeStyleProps) => ({
         position: 'fixed',
         zIndex: 999,
         width: '346px',
         height: '340px',
         padding: '4px',
-        backgroundColor: 'white',
+        backgroundColor: props.backgroundColor,
+        borderColor: props.borderColor,
+        color: props.fontColor,
         borderRadius: '6px',
         border: '1px solid',
         overflow: 'scroll',
         display: 'none',
-    },
+    }),
     content: {
         overflow: 'hidden',
         flexDirection: 'column'
@@ -63,9 +70,60 @@ export const getFocusArea = () => {
     return focusTextArea;
 }
 
+export const setSameThemeAsGithub = () => {
+    const htmlDom = document.getElementsByTagName('html');
+    const githubTheme = htmlDom[0].dataset.colorMode;
+    switch (githubTheme) {
+        case 'auto':
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                const darkThemeColor = htmlDom[0].dataset.darkTheme;
+                checkAndSetThemeColor(darkThemeColor);
+            } else {
+                const lightThemeColor = htmlDom[0].dataset.lightTheme;
+                checkAndSetThemeColor(lightThemeColor);
+            }
+            break;
+        case 'dark':
+            const darkThemeColor = htmlDom[0].dataset.darkTheme;
+            checkAndSetThemeColor(darkThemeColor);
+            break;
+        case 'light':
+        default:
+            const lightThemeColor = htmlDom[0].dataset.lightTheme;
+            checkAndSetThemeColor(lightThemeColor);
+            break;
+    }
+}
+
+const checkAndSetThemeColor = (themeColor: string) => {
+    switch (themeColor) {
+        case 'dark':
+            backgroundColorTheme = '#0d1117';
+            borderColorTheme = '#30363d';
+            fontColorTheme = '#c9d1d9';
+            break;
+        case 'dark_dimmed':
+            backgroundColorTheme = '#22272e';
+            borderColorTheme = '#444c56';
+            fontColorTheme = '#adbac7';
+            break;
+        case 'light':
+        default:
+            backgroundColorTheme = '#ffffff';
+            borderColorTheme = '#e1e4e8';
+            fontColorTheme = '#24292e';
+            break;
+    }
+}
+
 export const Popup: React.FC = () => {
     const [emojiCode, setEmojiCode] = useState('');
-    const classes = useStyles()
+    const themeProps: ThemeStyleProps = {
+        backgroundColor: backgroundColorTheme,
+        borderColor: borderColorTheme,
+        fontColor: fontColorTheme
+    };
+    const classes = useStyles(themeProps);
 
     useEffect(() => {
         if (focusTextArea && emojiCode) {
