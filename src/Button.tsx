@@ -22,7 +22,7 @@ const useStyles = makeStyles({
         listStyleType: 'none'
     },
     li: {
-
+        cursor: 'pointer'
     },
     button: {
         verticalAlign: 'middle',
@@ -39,17 +39,9 @@ const useStyles = makeStyles({
         lineHeight: '1',
     },
     svg: {
-        maxHeight: '100%',
-        maxWidth: '100%',
-        verticalAlign: 'bottom',
-        overflow: 'hidden',
-        pointerEvents: 'none',
-        color: 'currentcolor',
-        fill: 'rgb(255, 255, 255)'
-    },
-    path: {
-        fill: 'currentcolor',
-        fillRule: 'evenodd'
+        '&:hover': {
+            fill: '#0366d6'
+        }
     }
 })
 
@@ -62,59 +54,59 @@ export const Button: React.FC<EmojiRef> = (props) => {
 
     return (
         <ul className={classes.ul}>
-            <li>
+            <li className={classes.li}>
                 <button className={classes.button} onClick={() => linkToRef(0)}>
                     <span className={classes.span}>
-                        <ClockIcon size='medium' />
+                        <ClockIcon className={classes.svg} size='medium' />
                     </span>
                 </button>
             </li>
             <li>
                 <button className={classes.button} onClick={() => linkToRef(1)}>
                     <span className={classes.span}>
-                        <SmileyIcon size='medium' />
+                        <SmileyIcon className={classes.svg} size='medium' />
                     </span>
                 </button>
             </li>
             <li>
                 <button className={classes.button} onClick={() => linkToRef(2)}>
                     <span className={classes.span}>
-                        <SquirrelIcon size='medium' />
+                        <SquirrelIcon className={classes.svg} size='medium' />
                     </span>
                 </button>
             </li>
             <li>
                 <button className={classes.button} onClick={() => linkToRef(3)}>
                     <span className={classes.span}>
-                        <BriefcaseIcon size='medium' />
+                        <BriefcaseIcon className={classes.svg} size='medium' />
                     </span>
                 </button>
             </li>
             <li>
                 <button className={classes.button} onClick={() => linkToRef(4)}>
                     <span className={classes.span}>
-                        <GiftIcon size='medium' />
+                        <GiftIcon className={classes.svg} size='medium' />
                     </span>
                 </button>
             </li>
             <li>
                 <button className={classes.button} onClick={() => linkToRef(5)}>
                     <span className={classes.span}>
-                        <ImageIcon size='medium' />
+                        <ImageIcon className={classes.svg} size='medium' />
                     </span>
                 </button>
             </li>
             <li>
                 <button className={classes.button} onClick={() => linkToRef(6)}>
                     <span className={classes.span}>
-                        <RocketIcon size='medium' />
+                        <RocketIcon className={classes.svg} size='medium' />
                     </span>
                 </button>
             </li>
             <li>
                 <button className={classes.button} onClick={() => linkToRef(7)}>
                     <span className={classes.span}>
-                        <MarkGithubIcon size='medium' />
+                        <MarkGithubIcon className={classes.svg} size='medium' />
                     </span>
                 </button>
             </li>
