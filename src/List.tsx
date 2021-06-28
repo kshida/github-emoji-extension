@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
-import { CategorizeEmojiData, Emoji } from './Emoji';
-import { EmojiUseStateRefs, EmojiProps } from './Interface';
+import { CategorizeEmojiData, Emoji, EMOJI_CATEGORY_KEY } from './Emoji';
+import { EmojiUseStateRefs, EmojiProps, RecentlyEmojiProps } from './Interface';
 
 const useStyles = makeStyles({
     ul: {
@@ -25,7 +25,25 @@ const useStyles = makeStyles({
     },
 })
 
-export const List: React.FC<EmojiUseStateRefs> = (props) => {
+export const RecentlyList: React.FC<RecentlyEmojiProps> = (props) => {
+    const classes = useStyles()
+    return (
+        <div>
+            <React.Fragment>
+                <div id={EMOJI_CATEGORY_KEY.RECENTLY} className={classes.categoryTitle} ref={props.refs[0]}>
+                    <span className={classes.titleFont}>{EMOJI_CATEGORY_KEY.RECENTLY}</span>
+                </div>
+                <ul className={classes.ul}>
+                    {props.recentlyEmojis.map((emoji: EmojiProps) => {
+                        return <li className={classes.li}><Emoji setEmoji={props.setEmoji} setRecentlyEmoji={props.setRecentlyEmoji} emojiKey={emoji.emojiKey} emojiPath={emoji.emojiPath} /></li>
+                    })}
+                </ul>
+            </React.Fragment>
+        </div>
+    );
+}
+
+export const EmojiList: React.FC<EmojiUseStateRefs> = (props) => {
     const [emojiList, setEmojiList] = useState([]);
 
     useEffect(() => {
@@ -38,22 +56,22 @@ export const List: React.FC<EmojiUseStateRefs> = (props) => {
                         emojiPath: ePath
                     }
                 })
-                setEmojiList(CategorizeEmojiData(emojis));
+                setEmojiList(CategorizeEmojiData(emojis, props.setRecentlyEmoji));
             })
     }, [])
 
     const classes = useStyles()
     return (
         <div>
-            {emojiList.filter((emojiData, index) => index === 0 || emojiData.props.length > 0).map((emojis, index) => {
+            {emojiList.filter(emojiData => emojiData.props.length > 0).map((emojis, index) => {
                 return (
                     <React.Fragment>
-                        <div id={emojis.category} className={classes.categoryTitle} ref={props.refs[index]}>
+                        <div id={emojis.category} className={classes.categoryTitle} ref={props.refs[index + 1]}>
                             <span className={classes.titleFont}>{emojis.category}</span>
                         </div>
                         <ul className={classes.ul}>
                             {emojis.props.map((emoji: EmojiProps) => {
-                                return <li className={classes.li}><Emoji setEmoji={props.setEmoji} emojiKey={emoji.emojiKey} emojiPath={emoji.emojiPath} /></li>
+                                return <li className={classes.li}><Emoji setEmoji={props.setEmoji} setRecentlyEmoji={props.setRecentlyEmoji} emojiKey={emoji.emojiKey} emojiPath={emoji.emojiPath} /></li>
                             })}
                         </ul>
                     </React.Fragment>

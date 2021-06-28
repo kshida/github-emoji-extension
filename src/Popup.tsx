@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { List } from './List';
+import { EmojiList, RecentlyList } from './List';
 import { Button } from './Button';
-import { ThemeStyleProps } from './Interface';
+import { RecentlyProps, ThemeStyleProps } from './Interface';
 
 export const POPUP_ID = 'popup-frame';
 
@@ -122,6 +122,7 @@ const checkAndSetThemeColor = (themeColor: string) => {
 
 const refArray = [...Array(8)].map(() => React.createRef<HTMLDivElement>());
 export const Popup: React.FC = () => {
+    const [recentlyList, setRecentlyList] = useState<RecentlyProps[]>([]);
     const [emojiCode, setEmojiCode] = useState('');
     const themeProps: ThemeStyleProps = {
         backgroundColor: backgroundColorTheme,
@@ -146,7 +147,8 @@ export const Popup: React.FC = () => {
                 <Button refs={refArray} />
             </div>
             <div className={classes.content}>
-                <List setEmoji={setEmojiCode} refs={refArray} />
+                <RecentlyList recentlyEmojis={recentlyList} setRecentlyEmoji={setRecentlyList} setEmoji={setEmojiCode} refs={refArray} />
+                <EmojiList setRecentlyEmoji={setRecentlyList} setEmoji={setEmojiCode} refs={refArray} />
             </div>
         </div>
     )

@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { EmojiCategorizedProps, EmojiProps, EmojiPropsAndState } from './Interface';
+import { EmojiCategorizedProps, EmojiProps, EmojiPropsAndState, RecentlyProps } from './Interface';
 import EmojiCategory from './emoji.json';
 
 export const EMOJI_CATEGORY_KEY = {
@@ -16,6 +16,8 @@ export const EMOJI_CATEGORY_KEY = {
 } as const;
 type EmojiCategoryKey = typeof EMOJI_CATEGORY_KEY[keyof typeof EMOJI_CATEGORY_KEY];
 
+const chromeStorageKey = 'emojiProp';
+
 const useStyles = makeStyles({
     p: {
         margin: '0px',
@@ -26,9 +28,27 @@ const useStyles = makeStyles({
     }
 })
 
-const insertEmoji = (element: React.MouseEvent<HTMLSpanElement, MouseEvent>, setEmoji: React.Dispatch<React.SetStateAction<string>>): void => {
-    const emojiStr = element.currentTarget.dataset.emojiKey;
-    setEmoji(emojiStr);
+const insertEmoji = (element: React.MouseEvent<HTMLSpanElement, MouseEvent>, setEmoji: React.Dispatch<React.SetStateAction<string>>, setRecentlyEmoji: React.Dispatch<React.SetStateAction<RecentlyProps[]>>): void => {
+    const emojiKeyStr = element.currentTarget.dataset.emojiKey;
+    const emojiPathStr = element.currentTarget.dataset.emojiPath;
+    updateRecentlyEmojiList(emojiKeyStr, emojiPathStr, setRecentlyEmoji);
+    setEmoji(emojiKeyStr);
+}
+
+const updateRecentlyEmojiList = (emojiKey: string, emojiPath: string, setRecentlyEmoji: React.Dispatch<React.SetStateAction<RecentlyProps[]>>) => {
+    chrome.storage.local.get(chromeStorageKey, result => {
+        let emojiProps: EmojiProps[] = [];
+        emojiProps.push({
+            emojiKey: emojiKey,
+            emojiPath: emojiPath
+        });
+        if (result.emojiProp?.length > 0) {
+            const tmpEmojiProps = emojiProps.concat(result.emojiProp);
+            emojiProps = tmpEmojiProps.filter((value, index, self) => self.findIndex(element => (element.emojiKey === value.emojiKey)) === index);
+        }
+        setRecentlyEmoji(emojiProps);
+        chrome.storage.local.set({chromeStorageKey: emojiProps});
+    })
 }
 
 const sortByIndex = (aEmojiProps: EmojiProps, bEmojiProps: EmojiProps) => {
@@ -36,9 +56,14 @@ const sortByIndex = (aEmojiProps: EmojiProps, bEmojiProps: EmojiProps) => {
 }
 
 // 各カテゴリに分類された絵文字情報を読み込む
-export const CategorizeEmojiData = (emojiPropList: EmojiProps[]): EmojiCategorizedProps[] => {
+export const CategorizeEmojiData = (emojiPropList: EmojiProps[], setRecentlyEmoji: React.Dispatch<React.SetStateAction<RecentlyProps[]>>): EmojiCategorizedProps[] => {
 
-    const recentlyEmojis: EmojiProps[] = [];
+    chrome.storage.local.get(chromeStorageKey, result => {
+        if (result?.emojiProp?.length > 0) {
+            const recentlyEmojis: EmojiProps[] = result.emojiProp;
+            setRecentlyEmoji(recentlyEmojis);
+        }
+    })
 
     const propsWithoutPe: EmojiProps[] = [];
     const filteredPeopleEmojis = emojiPropList.filter(prop => {
@@ -121,10 +146,6 @@ export const CategorizeEmojiData = (emojiPropList: EmojiProps[]): EmojiCategoriz
 
     const categorizedEmojis: EmojiCategorizedProps[] = [
         {
-            category: EMOJI_CATEGORY_KEY.RECENTLY,
-            props: recentlyEmojis
-        },
-        {
             category: EMOJI_CATEGORY_KEY.PEOPLE,
             props: filteredPeopleEmojis
         },
@@ -164,7 +185,7 @@ export const CategorizeEmojiData = (emojiPropList: EmojiProps[]): EmojiCategoriz
 export const Emoji: React.FC<EmojiPropsAndState> = (props) => {
     const classes = useStyles()
     return (
-        <p className={classes.p} data-emoji-key={props.emojiKey} onClick={(element) => insertEmoji(element, props.setEmoji)}>
+        <p className={classes.p} data-emoji-key={props.emojiKey} data-emoji-path={props.emojiPath} onClick={(element) => insertEmoji(element, props.setEmoji, props.setRecentlyEmoji)}>
             <img className={classes.img} src={props.emojiPath}/>
         </p>
     );

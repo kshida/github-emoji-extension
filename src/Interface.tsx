@@ -14,9 +14,14 @@ export type EmojiRef = {
 
 export type EmojiUseState = {
     setEmoji: React.Dispatch<React.SetStateAction<string>>;
+    setRecentlyEmoji: React.Dispatch<React.SetStateAction<RecentlyProps[]>>
 }
 
-export type EmojiUseStateRefs = EmojiRef & EmojiUseState;
+export type EmojiUseStateRefs = EmojiUseState & EmojiRef;
+
+export type RecentlyEmojiProps = {
+    recentlyEmojis: RecentlyProps[];
+} & EmojiUseState & EmojiRef;
 
 export type EmojiPropsAndState = EmojiProps & EmojiUseState;
 
@@ -29,4 +34,9 @@ export type ThemeStyleProps = {
     backgroundColor: string,
     borderColor: string,
     fontColor: string
+}
+
+export type RecentlyProps = {
+    emojiKey: string,
+    emojiPath: string
 }
