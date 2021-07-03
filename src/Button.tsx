@@ -10,7 +10,7 @@ import {
   RocketIcon,
   MarkGithubIcon,
 } from '@primer/octicons-react'
-import { EmojiRef } from './Interface'
+import { ButtonThemeStyleRefs, ThemeStyleProps } from './Interface'
 
 const useStyles = makeStyles({
   ul: {
@@ -24,16 +24,16 @@ const useStyles = makeStyles({
   li: {
     cursor: 'pointer',
   },
-  button: {
+  button: (props: ThemeStyleProps) => ({
     verticalAlign: 'middle',
     backgroundColor: 'transparent',
     border: '0',
-    color: 'rgba(9, 30, 66, 0.54)',
+    color: props.color,
     cursor: 'pointer',
     margin: '2px 0',
     padding: '0',
     transition: 'color 0.2s ease',
-  },
+  }),
   span: {
     display: 'inline-block',
     lineHeight: '1',
@@ -45,8 +45,8 @@ const useStyles = makeStyles({
   },
 })
 
-export const Button: React.FC<EmojiRef> = (props) => {
-  const classes = useStyles()
+export const Button: React.FC<ButtonThemeStyleRefs> = (props) => {
+  const classes = useStyles(props.themes)
 
   const linkToRef = (index: number) => {
     props.refs[index]?.current?.scrollIntoView()

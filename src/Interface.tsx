@@ -17,6 +17,7 @@ export type ThemeStyleProps = {
   backgroundColor: string
   borderColor: string
   fontColor: string
+  color: string
 }
 
 export type RecentlyProps = {
@@ -32,6 +33,10 @@ export type EmojiUseState = {
   setEmoji: React.Dispatch<React.SetStateAction<string>>
   setRecentlyEmoji: React.Dispatch<React.SetStateAction<RecentlyProps[]>>
 }
+
+export type ButtonThemeStyleRefs = {
+  themes: ThemeStyleProps
+} & EmojiRef
 
 export type RecentlyEmojiProps = {
   recentlyEmojis: RecentlyProps[]

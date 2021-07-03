@@ -10,6 +10,7 @@ export const POPUP_ID = 'popup-frame'
 let backgroundColorTheme = 'white'
 let borderColorTheme = 'white'
 let fontColorTheme = 'black'
+let buttonColorTheme = 'white'
 
 const useStyles = makeStyles({
   popup: (props: ThemeStyleProps) => ({
@@ -103,17 +104,20 @@ const checkAndSetThemeColor = (themeColor: string) => {
       backgroundColorTheme = '#0d1117'
       borderColorTheme = '#30363d'
       fontColorTheme = '#c9d1d9'
+      buttonColorTheme = 'rgb(201, 209, 217)'
       break
     case 'dark_dimmed':
       backgroundColorTheme = '#22272e'
       borderColorTheme = '#444c56'
       fontColorTheme = '#adbac7'
+      buttonColorTheme = 'rgb(173, 186, 199)'
       break
     case 'light':
     default:
       backgroundColorTheme = '#ffffff'
       borderColorTheme = '#e1e4e8'
       fontColorTheme = '#24292e'
+      buttonColorTheme = 'rgba(9, 30, 66, 0.54)'
       break
   }
 }
@@ -126,6 +130,7 @@ export const Popup: React.FC = () => {
     backgroundColor: backgroundColorTheme,
     borderColor: borderColorTheme,
     fontColor: fontColorTheme,
+    color: buttonColorTheme
   }
   const classes = useStyles(themeProps)
 
@@ -145,7 +150,7 @@ export const Popup: React.FC = () => {
   return (
     <div id={POPUP_ID} className={classes.popup}>
       <div className={classes.category}>
-        <Button refs={refArray} />
+        <Button themes={themeProps} refs={refArray} />
       </div>
       <div className={classes.content}>
         <RecentlyList
