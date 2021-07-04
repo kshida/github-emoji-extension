@@ -7,11 +7,12 @@ window.onload = () => {
   addListener()
 }
 
+// Close the pop-up when the screen is scrolled.
 window.addEventListener(`scroll`, hidePopup, { passive: true })
+// Close the pop-up when you click outside the pop-up
 window.addEventListener(
   `click`,
   (event) => {
-    // ポップアップの外側をクリックした場合はポップアップを閉じる
     if (!(event.target as HTMLElement).closest(`#${POPUP_ID}`)) hidePopup()
   },
   { passive: true }

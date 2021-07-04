@@ -12,6 +12,7 @@ import {
 } from '@primer/octicons-react'
 import { ButtonThemeStyleRefs, ThemeStyleProps } from './Interface'
 
+// Style settings for button.
 const useStyles = makeStyles({
   ul: {
     display: 'flex',
@@ -45,9 +46,15 @@ const useStyles = makeStyles({
   },
 })
 
+/**
+ * Draw a category button.
+ * @param props List of refs and styles passed from the parent element.
+ * @returns Returns the dom of the category button.
+ */
 export const Button: React.FC<ButtonThemeStyleRefs> = (props) => {
   const classes = useStyles(props.themes)
 
+  // Scroll to the target position according to the category button you pressed.
   const linkToRef = (index: number) => {
     props.refs[index]?.current?.scrollIntoView()
   }

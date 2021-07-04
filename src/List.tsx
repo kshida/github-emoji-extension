@@ -4,6 +4,7 @@ import axios from 'axios'
 import { CategorizeEmojiData, Emoji, EMOJI_CATEGORY_KEY } from './Emoji'
 import { EmojiUseStateRefs, EmojiProps, RecentlyEmojiProps } from './Interface'
 
+// Style settings for list.
 const useStyles = makeStyles({
   ul: {
     lineHeight: '1',
@@ -25,6 +26,11 @@ const useStyles = makeStyles({
   },
 })
 
+/**
+ * Draws a list of recently used emoji.
+ * @param props List of refs and recently used emoji passed from the parent element.
+ * @returns Return the dom for the recently list.
+ */
 export const RecentlyList: React.FC<RecentlyEmojiProps> = (props) => {
   const classes = useStyles()
   return (
@@ -58,6 +64,11 @@ export const RecentlyList: React.FC<RecentlyEmojiProps> = (props) => {
   )
 }
 
+/**
+ * Draws a list of emoji for each category.
+ * @param props List of refs and useState passed from the parent element.
+ * @returns Returns a list of emoji categorized by category.
+ */
 export const EmojiList: React.FC<EmojiUseStateRefs> = (props) => {
   const [emojiList, setEmojiList] = useState([])
 

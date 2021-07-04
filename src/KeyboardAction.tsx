@@ -1,9 +1,17 @@
 import { getPopup, setFocusArea } from './Popup'
 
+/**
+ * Set up a listener.
+ */
 export const addListener = (): void => {
   addListenerForSlashKey()
 }
 
+/**
+ * Check if the cursor position satisfies the conditions to display the popup.
+ * @param element Focused textarea dom.
+ * @returns Return true if the popup should be shown.
+ */
 const checkShowPopupCaretPosition = (element: HTMLTextAreaElement) => {
   return (
     element.selectionStart === 0 ||
@@ -11,14 +19,17 @@ const checkShowPopupCaretPosition = (element: HTMLTextAreaElement) => {
   )
 }
 
+/**
+ * Set up a listener to display a popup when the slash is pressed.
+ */
 const addListenerForSlashKey = () => {
   document.addEventListener('keydown', (event: KeyboardEvent) => {
-    // テキストエリアのDOMを取得
+    // Get the dom of the textarea in focus.
     const textAreaElement =
       document.activeElement instanceof HTMLTextAreaElement
         ? document.activeElement
         : null
-    // "/"押下、かつ先頭または半角スペースの直後の場合
+    // Check to show a popup when a slash is pressed.
     if (
       event.code === 'Slash' &&
       textAreaElement &&
@@ -30,74 +41,84 @@ const addListenerForSlashKey = () => {
   })
 }
 
+/**
+ * Adjust the display position of the popup.
+ * @param textAreaElement Focused textarea dom.
+ */
 const initPopupPosition = (textAreaElement: HTMLTextAreaElement) => {
-  // テキストエリアからカーソルまでの座標を計算
+  // Calculate the distance from the textarea to the cursor.
   const position = getCursorOffsetPosition(
     textAreaElement,
     textAreaElement.value.substr(0, textAreaElement.selectionStart)
   )
 
-  // テキストエリアの座標を取得
+  // Get the coordinates of the target textarea.
   const parentX = textAreaElement.getBoundingClientRect().left
   const parentY = textAreaElement.getBoundingClientRect().top
 
-  // カーソルの座標を決定
+  // Determine the coordinates of the cursor.
   const cursorX = parentX + position.left
   const cursorY = parentY + position.top
 
-  // ポップアップを取得
+  // Get the dom of the popup.
   let popup = getPopup()
   if (!popup) return
-  // 入力中のテキストエリアを設定
+  // Temporarily save the textarea in focus.
   setFocusArea(textAreaElement)
 
-  // カーソルの座標にポップアップの左下がくるように調整
+  // Adjust the coordinates of the cursor so that it is at the bottom left of the popup.
   popup.style.display = 'block'
   popup.style.top = `${cursorY - 340}px`
   popup.style.left = `${cursorX}px`
 }
 
+/**
+ * Calculate the offset coordinates of the cursor.
+ * @param textAreaElement Focused textarea dom.
+ * @param text String being input.
+ * @returns Return the coordinates of the cursor.
+ */
 const getCursorOffsetPosition = (
   textAreaElement: HTMLTextAreaElement,
   text: string
 ) => {
-  // ダミーのdivを生成
+  // Generate a dummy div.
   const dummyDiv = document.createElement('div')
 
-  // 親要素のテキストエリアのスタイルを取得
+  // Get the style of the parent element of the textarea in focus.
   const taStyle = window.getComputedStyle(textAreaElement)
 
-  // ダミーのdivにテキストエリアのスタイルをコピー
+  // Copy the style to a dummy div.
   for (const k in taStyle) {
     dummyDiv.style.setProperty(k, taStyle[k])
   }
 
-  // ダミーのdivを画面外に描画する
+  // Draw a dummy div off-screen.
   dummyDiv.style.position = 'absolute'
   dummyDiv.style.top = '0'
   dummyDiv.style.left = '-9999'
   document.body.appendChild(dummyDiv)
 
-  // カーソル位置計算用のspanを生成
+  // Generate span to calculate the cursor coordinates.
   const span = document.createElement('span')
-  // spanに大きさをもたせるために適当な文字列を挿入
+  // Insert an appropriate string to add size to the span.
   span.innerHTML = '&nbsp;'
 
-  // 入力中の文字列を挿入
+  // Inserts the string that is being typed.
   dummyDiv.textContent = text
-  // スクロール位置を調整
+  // Adjust the scroll position.
   dummyDiv.scrollTop = dummyDiv.scrollHeight
-  // ダミーのdivにspanを挿入
+  // Insert a span into the dummy div.
   dummyDiv.appendChild(span)
 
-  // spanの相対位置を取得
+  // Get the offset position of span.
   const position = {
     top: span.offsetTop,
     left: span.offsetLeft,
     height: parseInt(taStyle['lineHeight']),
   }
 
-  // ダミー削除
+  // Delete the dummy.
   document.body.removeChild(dummyDiv)
 
   return position

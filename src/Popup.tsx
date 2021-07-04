@@ -7,11 +7,17 @@ import { RecentlyProps, ThemeStyleProps } from './Interface'
 
 export const POPUP_ID = 'popup-frame'
 
+// Initial value of the style.
 let backgroundColorTheme = 'white'
 let borderColorTheme = 'white'
 let fontColorTheme = 'black'
 let buttonColorTheme = 'white'
+// Variables for adjusting the drawing timing of the animation.
+let ticking = false
+// Variable to store the textarea in focus.
+let focusTextArea: HTMLTextAreaElement = null
 
+// Style settings for popup.
 const useStyles = makeStyles({
   popup: (props: ThemeStyleProps) => ({
     position: 'fixed',
@@ -39,6 +45,9 @@ const useStyles = makeStyles({
   },
 })
 
+/**
+ * Generate a popup.
+ */
 export const createPopup = () => {
   // 絵文字用ポップアップを生成
   const app = document.createElement('div')
@@ -46,11 +55,17 @@ export const createPopup = () => {
   ReactDOM.render(<Popup />, app)
 }
 
+/**
+ * Get a popup that has already been drawn.
+ * @returns Return the dom of the popup that has been drawn.
+ */
 export const getPopup = (): HTMLElement => {
   return document.getElementById(POPUP_ID)
 }
 
-let ticking = false
+/**
+ * Hides the popup that has already been drawn.
+ */
 export const hidePopup = () => {
   if (!ticking) {
     requestAnimationFrame(() => {
@@ -64,15 +79,25 @@ export const hidePopup = () => {
   }
 }
 
-let focusTextArea: HTMLTextAreaElement = null
+/**
+ * Set the textarea in focus.
+ * @param textAreaElement Focused textarea dom.
+ */
 export const setFocusArea = (textAreaElement: HTMLTextAreaElement) => {
   focusTextArea = textAreaElement
 }
 
+/**
+ * Get the textarea in focus.
+ * @returns Focused textarea dom.
+ */
 export const getFocusArea = () => {
   return focusTextArea
 }
 
+/**
+ * Set up the same theme as GitHub.
+ */
 export const setSameThemeAsGithub = () => {
   const htmlDom = document.getElementsByTagName('html')
   const githubTheme = htmlDom[0].dataset.colorMode
@@ -98,6 +123,10 @@ export const setSameThemeAsGithub = () => {
   }
 }
 
+/**
+ * Set the style to match the GitHub theme.
+ * @param themeColor Themes set up on GitHub.
+ */
 const checkAndSetThemeColor = (themeColor: string) => {
   switch (themeColor) {
     case 'dark':
@@ -122,15 +151,19 @@ const checkAndSetThemeColor = (themeColor: string) => {
   }
 }
 
-const refArray = [...Array(8)].map(() => React.createRef<HTMLDivElement>())
+/**
+ * Draw a popup.
+ * @returns Return the dom for the popup.
+ */
 export const Popup: React.FC = () => {
+  const refArray = [...Array(8)].map(() => React.createRef<HTMLDivElement>())
   const [recentlyList, setRecentlyList] = useState<RecentlyProps[]>([])
   const [emojiCode, setEmojiCode] = useState('')
   const themeProps: ThemeStyleProps = {
     backgroundColor: backgroundColorTheme,
     borderColor: borderColorTheme,
     fontColor: fontColorTheme,
-    color: buttonColorTheme
+    color: buttonColorTheme,
   }
   const classes = useStyles(themeProps)
 
@@ -138,6 +171,7 @@ export const Popup: React.FC = () => {
     if (focusTextArea && emojiCode) {
       const nowText = focusTextArea.value
       const caret = focusTextArea.selectionStart
+      // Insert a emoji code in the focused textarea.
       focusTextArea.value = `${nowText.substr(
         0,
         caret

@@ -3,11 +3,12 @@ import { makeStyles } from '@material-ui/core/styles'
 import {
   EmojiCategorizedProps,
   EmojiProps,
-  EmojiPropsAndState,
+  EmojiUseStateProps,
   RecentlyProps,
 } from './Interface'
 import EmojiCategory from './emoji.json'
 
+// Key for emoji categories.
 export const EMOJI_CATEGORY_KEY = {
   RECENTLY: 'Recently',
   PEOPLE: 'People',
@@ -22,8 +23,10 @@ export const EMOJI_CATEGORY_KEY = {
 type EmojiCategoryKey =
   typeof EMOJI_CATEGORY_KEY[keyof typeof EMOJI_CATEGORY_KEY]
 
+// Key for chrome storage.
 const chromeStorageKey = 'emojiProp'
 
+// Style settings for emoji.
 const useStyles = makeStyles({
   p: {
     margin: '0px',
@@ -34,6 +37,12 @@ const useStyles = makeStyles({
   },
 })
 
+/**
+ * Save and insert the emoji you pressed.
+ * @param element Element of the clicked area.
+ * @param setEmoji Function to save the clicked emoji code.
+ * @param setRecentlyEmoji Function to save to the recently used list.
+ */
 const insertEmoji = (
   element: React.MouseEvent<HTMLSpanElement, MouseEvent>,
   setEmoji: React.Dispatch<React.SetStateAction<string>>,
@@ -45,6 +54,12 @@ const insertEmoji = (
   setEmoji(emojiKeyStr)
 }
 
+/**
+ * Save to the recently used list.
+ * @param emojiKey Emoji code of the clicked area.
+ * @param emojiPath Url for the emoji image of the clicked area.
+ * @param setRecentlyEmoji Function to save to the recently used list.
+ */
 const updateRecentlyEmojiList = (
   emojiKey: string,
   emojiPath: string,
@@ -58,6 +73,7 @@ const updateRecentlyEmojiList = (
     })
     if (result.emojiProp?.length > 0) {
       const tmpEmojiProps = emojiProps.concat(result.emojiProp)
+      // Exclude duplicate emoji.
       emojiProps = tmpEmojiProps.filter(
         (value, index, self) =>
           self.findIndex((element) => element.emojiKey === value.emojiKey) ===
@@ -69,15 +85,24 @@ const updateRecentlyEmojiList = (
   })
 }
 
+/**
+ * Sort emoji.
+ */
 const sortByIndex = (aEmojiProps: EmojiProps, bEmojiProps: EmojiProps) => {
   return aEmojiProps.emojiIndex - bEmojiProps.emojiIndex
 }
 
-// 各カテゴリに分類された絵文字情報を読み込む
+/**
+ * Classify the retrieved emoji list into categories.
+ * @param emojiPropList List of retrieved emojis.
+ * @param setRecentlyEmoji Function to save to the recently used list.
+ * @returns Returns a list of categorized emoji.
+ */
 export const CategorizeEmojiData = (
   emojiPropList: EmojiProps[],
   setRecentlyEmoji: React.Dispatch<React.SetStateAction<RecentlyProps[]>>
 ): EmojiCategorizedProps[] => {
+  // Get a list of recently used emoji.
   chrome.storage.local.get(chromeStorageKey, (result) => {
     if (result?.emojiProp?.length > 0) {
       const recentlyEmojis: EmojiProps[] = result.emojiProp
@@ -86,6 +111,7 @@ export const CategorizeEmojiData = (
   })
 
   const propsWithoutPe: EmojiProps[] = []
+  // Classify emojis in the "People" category.
   const filteredPeopleEmojis = emojiPropList
     .filter((prop) => {
       const isPeople = EmojiCategory.People.includes(prop.emojiKey)
@@ -100,6 +126,7 @@ export const CategorizeEmojiData = (
     })
 
   const propsWithoutPeNa: EmojiProps[] = []
+  // Classify emojis in the "Nature" category.
   const filteredNatureEmojis = propsWithoutPe
     .filter((prop) => {
       const isNature = EmojiCategory.Nature.includes(prop.emojiKey)
@@ -114,6 +141,7 @@ export const CategorizeEmojiData = (
     })
 
   const propsWithoutPeNaOb: EmojiProps[] = []
+  // Classify emojis in the "Objects" category.
   const filteredObjectEmojis = propsWithoutPeNa
     .filter((prop) => {
       const isObject = EmojiCategory.Objects.includes(prop.emojiKey)
@@ -128,6 +156,7 @@ export const CategorizeEmojiData = (
     })
 
   const propsWithoutPeNaObFo: EmojiProps[] = []
+  // Classify emojis in the "Foods" category.
   const filteredFoodEmojis = propsWithoutPeNaOb
     .filter((prop) => {
       const isFood = EmojiCategory.Foods.includes(prop.emojiKey)
@@ -140,6 +169,7 @@ export const CategorizeEmojiData = (
     })
 
   const propsWithoutPeNaObFoPl: EmojiProps[] = []
+  // Classify emojis in the "Places" category.
   const filteredPlaceEmojis = propsWithoutPeNaObFo
     .filter((prop) => {
       const isPlace = EmojiCategory.Places.includes(prop.emojiKey)
@@ -152,6 +182,7 @@ export const CategorizeEmojiData = (
     })
 
   const propsWithoutPeNaObFoPlVe: EmojiProps[] = []
+  // Classify emojis in the "Vehicles" category.
   const filteredVehicleEmojis = propsWithoutPeNaObFoPl
     .filter((prop) => {
       const isVehicle = EmojiCategory.Vehicle.includes(prop.emojiKey)
@@ -166,6 +197,7 @@ export const CategorizeEmojiData = (
     })
 
   const otherEmojis: EmojiProps[] = []
+  // Classify emojis in the "Symbols" category.
   const filteredSymbolEmojis = propsWithoutPeNaObFoPlVe
     .filter((prop) => {
       const isSymbol = EmojiCategory.Symbols.includes(prop.emojiKey)
@@ -179,7 +211,7 @@ export const CategorizeEmojiData = (
       return symbolEmoji
     })
 
-  // ソートする
+  // Sort the categorized list.
   filteredPeopleEmojis.sort(sortByIndex)
   filteredNatureEmojis.sort(sortByIndex)
   filteredObjectEmojis.sort(sortByIndex)
@@ -226,7 +258,12 @@ export const CategorizeEmojiData = (
   return categorizedEmojis
 }
 
-export const Emoji: React.FC<EmojiPropsAndState> = (props) => {
+/**
+ * Draw a emoji.
+ * @param props Emoji information and functions passed from the parent element.
+ * @returns Return the dom of the emoji.
+ */
+export const Emoji: React.FC<EmojiUseStateProps> = (props) => {
   const classes = useStyles()
   return (
     <p
