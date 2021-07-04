@@ -49,7 +49,6 @@ const useStyles = makeStyles({
  * Generate a popup.
  */
 export const createPopup = () => {
-  // 絵文字用ポップアップを生成
   const app = document.createElement('div')
   document.body.append(app)
   ReactDOM.render(<Popup />, app)

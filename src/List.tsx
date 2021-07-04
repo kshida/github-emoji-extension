@@ -73,7 +73,7 @@ export const EmojiList: React.FC<EmojiUseStateRefs> = (props) => {
   const [emojiList, setEmojiList] = useState([])
 
   useEffect(() => {
-    // 絵文字データを取得
+    // Get the emoji data.
     axios.get('https://api.github.com/emojis').then((res) => {
       const emojis = Object.entries(res.data).map(
         ([eKey, ePath]: [string, string]): EmojiProps => {
