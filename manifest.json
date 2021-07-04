@@ -1,10 +1,10 @@
   
 {
   "manifest_version": 2,
-  "version": "0.0.1",
-  "short_name": "GithubEE",
-  "name": "GithubEmojiExtension",
-  "description": "GithubのEmoji入力機能を拡張する",
+  "version": "1.0.0",
+  "short_name": "GitHubEE",
+  "name": "GitHub Emoji Extension",
+  "description": "Extends the emoji functionality when entering comments on GitHub.",
   "content_scripts": [
     {
       "matches": ["https://github.com/*"],
@@ -14,7 +14,8 @@
   "background": {
     "scripts": [
       "background.js"
-    ]
+    ],
+    "persistent": false
   },
   "icons": {
       "16": "icons/icon16.png",
@@ -24,5 +25,5 @@
   "permissions": [
     "storage"
   ],
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  "content_security_policy": "script-src 'self'; object-src 'self'"
 }
