@@ -78,10 +78,10 @@ const updateRecentlyEmojiList = (
         (value, index, self) =>
           self.findIndex((element) => element.emojiKey === value.emojiKey) ===
           index
-      )
+      ).slice(0, 16);
     }
     setRecentlyEmoji(emojiProps)
-    chrome.storage.local.set({ chromeStorageKey: emojiProps })
+    chrome.storage.local.set({ [chromeStorageKey]: emojiProps })
   })
 }
 
