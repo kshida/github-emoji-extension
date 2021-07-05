@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import axios from 'axios'
+import ky from 'ky'
 import { CategorizeEmojiData, Emoji, EMOJI_CATEGORY_KEY } from './Emoji'
 import { EmojiUseStateRefs, EmojiProps, RecentlyEmojiProps } from './Interface'
 
@@ -74,17 +74,19 @@ export const EmojiList: React.FC<EmojiUseStateRefs> = (props) => {
 
   useEffect(() => {
     // Get the emoji data.
-    axios.get('https://api.github.com/emojis').then((res) => {
-      const emojis = Object.entries(res.data).map(
-        ([eKey, ePath]: [string, string]): EmojiProps => {
-          return {
-            emojiKey: eKey,
-            emojiPath: ePath,
+    ky.get('https://api.github.com/emojis')
+      .json()
+      .then((res) => {
+        const emojis = Object.entries(res).map(
+          ([eKey, ePath]: [string, string]): EmojiProps => {
+            return {
+              emojiKey: eKey,
+              emojiPath: ePath,
+            }
           }
-        }
-      )
-      setEmojiList(CategorizeEmojiData(emojis, props.setRecentlyEmoji))
-    })
+        )
+        setEmojiList(CategorizeEmojiData(emojis, props.setRecentlyEmoji))
+      })
   }, [])
 
   const classes = useStyles()
