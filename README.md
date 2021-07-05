@@ -49,7 +49,7 @@ This software uses the following open source packages:
 </p>
 
 ## :+1: Contributing
-Pull requests are welcome!! 😄
+Pull requests and bug reports are welcome!! 😄
 
 ## :page_facing_up: License
 [MIT](https://github.com/kshida/github-emoji-extension/blob/main/LICENSE)
