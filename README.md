@@ -31,8 +31,11 @@ The appearance of the emoji popup switches according to the GitHub theme.
 ## :wrench: How to build
 1. Clone this repository.
 2. Execute the following command.  
-`$ yarn build`
-3. An artifact will be generated in the dist folder, and you can load it as a Chrome extension.
+```bash
+$ cd github-emoji-extension
+$ yarn build
+```
+3. Load the artifacts generated in the dist folder as a Chrome extension.
 
 ## :sparkles: Technology used
 This software uses the following open source packages:
