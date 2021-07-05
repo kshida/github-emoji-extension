@@ -1,4 +1,4 @@
-# :tada::tada: github-emoji-extension :tada::tada:
+# :tada::tada: GitHub Emoji Extension :tada::tada:
 ![license](https://img.shields.io/github/license/kshida/github-emoji-extension)
 ![GitHub version](https://badge.fury.io/gh/kshida%2Fgithub-emoji-extension.svg)
 ![code size](https://img.shields.io/github/languages/code-size/kshida/github-emoji-extension)
