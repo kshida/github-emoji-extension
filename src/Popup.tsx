@@ -175,6 +175,7 @@ export const Popup: React.FC = () => {
         0,
         caret
       )}:${emojiCode}:${nowText.substr(caret)}`
+      setEmojiCode('');
       hidePopup()
       focusTextArea.focus()
     }
