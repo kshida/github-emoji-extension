@@ -7,6 +7,8 @@
 This Google extension allows you to use a variety of emoji when you type comments on GitHub.  
 Typing emoji is as easy as typing in Slack or Jira.
 
+Click [here](https://chrome.google.com/webstore/detail/github-emoji-extension/ihelcmhhldmlefeikdnpampbpbgbcgmg) to install!
+
 ![sample01](https://user-images.githubusercontent.com/34312716/124481266-0f5d0080-dde3-11eb-9881-a5fc892cb346.png)
 
 ## :pencil2: Usage
