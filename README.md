@@ -45,7 +45,7 @@ This software uses the following open source packages:
 <p align="left">
   <a href="https://reactjs.org/"><img src="https://raw.githubusercontent.com/facebook/react/cae635054e17a6f107a39d328649137b83f25972/fixtures/dom/public/react-logo.svg" height="75px;" /></a>
   <a href="https://www.typescriptlang.org/"><img src="https://user-images.githubusercontent.com/34312716/124487886-2eab5c00-ddea-11eb-9209-b3744f5d9444.png" height="75px;" /></a>
-  <a href="https://material-ui.com/"><img src="https://material-ui.com/static/logo_raw.svg" height="75px;" /></a>
+  <a href="https://mui.com/"><img src="https://cdn-images-1.medium.com/max/184/1*r_JMQ_271-pBc3IHCdVp8w@2x.png" height="75px;" /></a>
   <a href="https://github.com/sindresorhus/ky"><img src="https://github.com/sindresorhus/ky/blob/main/media/logo.svg" height="75px;" /></a>
   <a href="https://webpack.js.org/"><img src="https://github.com/webpack/media/blob/master/logo/icon-square-big.png?raw=true" height="75px;" /></a>
   <a href="https://prettier.io/"><img src="https://github.com/prettier/prettier-logo/blob/master/images/prettier-banner-dark.png" height="75px;" /></a>
