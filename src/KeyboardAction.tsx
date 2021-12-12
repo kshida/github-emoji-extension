@@ -60,20 +60,15 @@ const initPopupPosition = (textAreaElement: HTMLTextAreaElement) => {
   const cursorX = parentX + position.left
   const cursorY = parentY + position.top
 
-  // Get the dom of the popup.
   const popup = getPopup()
   if (!popup) return
-  // Temporarily save the textarea in focus.
   setFocusArea(textAreaElement)
 
-  // Get the width of the browser.
   const screenWidth = document.body.clientWidth
-
   // Calculate if a popup is out of the browser.
   const isExceedsBrowserHeight = cursorY - 340 <= 0
   const isExceedsBrowserWidth = cursorX + 348 >= screenWidth
 
-  // Adjust the coordinates of the cursor so that it is at the bottom left of the popup.
   popup.style.display = 'block'
   // Adjust the position of the popup if it is out of the browser.
   popup.style.top = isExceedsBrowserHeight
@@ -94,7 +89,6 @@ const getCursorOffsetPosition = (
   textAreaElement: HTMLTextAreaElement,
   text: string
 ) => {
-  // Generate a dummy div.
   const dummyDiv = document.createElement('div')
 
   // Get the style of the parent element of the textarea in focus.
@@ -116,11 +110,8 @@ const getCursorOffsetPosition = (
   // Insert an appropriate string to add size to the span.
   span.innerHTML = '&nbsp;'
 
-  // Inserts the string that is being typed.
   dummyDiv.textContent = text
-  // Adjust the scroll position.
   dummyDiv.scrollTop = dummyDiv.scrollHeight
-  // Insert a span into the dummy div.
   dummyDiv.appendChild(span)
 
   // Get the offset position of span.
@@ -130,7 +121,6 @@ const getCursorOffsetPosition = (
     height: parseInt(taStyle['lineHeight']),
   }
 
-  // Delete the dummy.
   document.body.removeChild(dummyDiv)
 
   return position
