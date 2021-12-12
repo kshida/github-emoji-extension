@@ -13,10 +13,10 @@ Click [here](https://chrome.google.com/webstore/detail/github-emoji-extension/ih
 
 ## :pencil2: Usage
 1. Install this extension from the Chrome web store.
-2. Click on the comment field in GitHub and enter `/`. If it is in a sentence, enter a space before entering `/`.
+2. Click on the comment field in GitHub and press `ctrl` and `/` at the same time.
 3. When the pop-up window appears, click on the emoji of your choice. Emoji are categorized by category, so if you want to move quickly between categories, click on the category button.
 4. The emoji will be inserted at the cursor position.
-5. If you want to cancel the input of the emoji, click or scroll outside the pop-up.
+5. If you want to cancel the input of the emoji, click outside the pop-up.
 
 ## :octocat: Theme
 The appearance of the emoji popup switches according to the GitHub theme.
@@ -35,6 +35,7 @@ The appearance of the emoji popup switches according to the GitHub theme.
 2. Execute the following command.  
 ```bash
 $ cd github-emoji-extension
+& yarn install
 $ yarn build
 ```
 3. Load the artifacts generated in the dist folder as a Chrome extension.
