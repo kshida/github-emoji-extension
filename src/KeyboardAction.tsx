@@ -8,19 +8,7 @@ export const addListener = (): void => {
 }
 
 /**
- * Check if the cursor position satisfies the conditions to display the popup.
- * @param element Focused textarea dom.
- * @returns Return true if the popup should be shown.
- */
-const checkShowPopupCaretPosition = (element: HTMLTextAreaElement) => {
-  return (
-    element.selectionStart === 0 ||
-    element.value.substr(element.selectionStart - 1, 1) === ' '
-  )
-}
-
-/**
- * Set up a listener to display a popup when the slash is pressed.
+ * Set up a listener to display a popup when ctrl and slash is pressed.
  */
 const addListenerForSlashKey = () => {
   document.addEventListener('keydown', (event: KeyboardEvent) => {
@@ -29,12 +17,8 @@ const addListenerForSlashKey = () => {
       document.activeElement instanceof HTMLTextAreaElement
         ? document.activeElement
         : null
-    // Check to show a popup when a slash is pressed.
-    if (
-      event.code === 'Slash' &&
-      textAreaElement &&
-      checkShowPopupCaretPosition(textAreaElement)
-    ) {
+    // Check whether or not to show popup.
+    if (event.ctrlKey && event.code === 'Slash' && textAreaElement) {
       event.preventDefault()
       initPopupPosition(textAreaElement)
     }
