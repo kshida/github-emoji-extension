@@ -35,7 +35,7 @@ The appearance of the emoji popup switches according to the GitHub theme.
 2. Execute the following command.  
 ```bash
 $ cd github-emoji-extension
-& yarn install
+$ yarn install
 $ yarn build
 ```
 3. Load the artifacts generated in the dist folder as a Chrome extension.
