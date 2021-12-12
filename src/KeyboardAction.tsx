@@ -53,8 +53,10 @@ const initPopupPosition = (textAreaElement: HTMLTextAreaElement) => {
   )
 
   // Get the coordinates of the target textarea.
-  const parentX = textAreaElement.getBoundingClientRect().left
-  const parentY = textAreaElement.getBoundingClientRect().top
+  const parentX =
+    textAreaElement.getBoundingClientRect().left + window.pageXOffset
+  const parentY =
+    textAreaElement.getBoundingClientRect().top + window.pageYOffset
 
   // Determine the coordinates of the cursor.
   const cursorX = parentX + position.left
