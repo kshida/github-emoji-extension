@@ -61,23 +61,27 @@ const initPopupPosition = (textAreaElement: HTMLTextAreaElement) => {
   const cursorY = parentY + position.top
 
   // Get the dom of the popup.
-  let popup = getPopup()
+  const popup = getPopup()
   if (!popup) return
   // Temporarily save the textarea in focus.
   setFocusArea(textAreaElement)
 
   // Get the width of the browser.
-  const screenWidth = document.body.clientWidth;
+  const screenWidth = document.body.clientWidth
 
   // Calculate if a popup is out of the browser.
-  const isExceedsBrowserHeight = (cursorY - 340) <= 0;
-  const isExceedsBrowserWidth = (cursorX + 348) >= screenWidth;
+  const isExceedsBrowserHeight = cursorY - 340 <= 0
+  const isExceedsBrowserWidth = cursorX + 348 >= screenWidth
 
   // Adjust the coordinates of the cursor so that it is at the bottom left of the popup.
   popup.style.display = 'block'
   // Adjust the position of the popup if it is out of the browser.
-  popup.style.top = isExceedsBrowserHeight ? `${cursorY + 25}px` : `${cursorY - 340}px`
-  popup.style.left = isExceedsBrowserWidth ? `${cursorX - 348}px` : `${cursorX}px`
+  popup.style.top = isExceedsBrowserHeight
+    ? `${cursorY + 25}px`
+    : `${cursorY - 340}px`
+  popup.style.left = isExceedsBrowserWidth
+    ? `${cursorX - 348}px`
+    : `${cursorX}px`
 }
 
 /**

@@ -48,6 +48,7 @@ export const RecentlyList: React.FC<RecentlyEmojiProps> = (props) => {
         <ul className={classes.ul}>
           {props.recentlyEmojis.map((emoji: EmojiProps) => {
             return (
+              // eslint-disable-next-line react/jsx-key
               <li className={classes.li}>
                 <Emoji
                   setEmoji={props.setEmoji}
@@ -96,6 +97,7 @@ export const EmojiList: React.FC<EmojiUseStateRefs> = (props) => {
         .filter((emojiData) => emojiData.props.length > 0)
         .map((emojis, index) => {
           return (
+            // eslint-disable-next-line react/jsx-key
             <React.Fragment>
               <div
                 id={emojis.category}
@@ -107,6 +109,7 @@ export const EmojiList: React.FC<EmojiUseStateRefs> = (props) => {
               <ul className={classes.ul}>
                 {emojis.props.map((emoji: EmojiProps) => {
                   return (
+                    // eslint-disable-next-line react/jsx-key
                     <li className={classes.li}>
                       <Emoji
                         setEmoji={props.setEmoji}

@@ -20,8 +20,6 @@ export const EMOJI_CATEGORY_KEY = {
   SYMBOLS: 'Symbols',
   OTHERS: 'Others',
 } as const
-type EmojiCategoryKey =
-  typeof EMOJI_CATEGORY_KEY[keyof typeof EMOJI_CATEGORY_KEY]
 
 // Key for chrome storage.
 const chromeStorageKey = 'emojiProp'
@@ -74,11 +72,13 @@ const updateRecentlyEmojiList = (
     if (result.emojiProp?.length > 0) {
       const tmpEmojiProps = emojiProps.concat(result.emojiProp)
       // Exclude duplicate emoji.
-      emojiProps = tmpEmojiProps.filter(
-        (value, index, self) =>
-          self.findIndex((element) => element.emojiKey === value.emojiKey) ===
-          index
-      ).slice(0, 16);
+      emojiProps = tmpEmojiProps
+        .filter(
+          (value, index, self) =>
+            self.findIndex((element) => element.emojiKey === value.emojiKey) ===
+            index
+        )
+        .slice(0, 16)
     }
     setRecentlyEmoji(emojiProps)
     chrome.storage.local.set({ [chromeStorageKey]: emojiProps })

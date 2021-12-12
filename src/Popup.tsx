@@ -48,7 +48,7 @@ const useStyles = makeStyles({
 /**
  * Generate a popup.
  */
-export const createPopup = () => {
+export const createPopup = (): void => {
   const app = document.createElement('div')
   document.body.append(app)
   ReactDOM.render(<Popup />, app)
@@ -65,7 +65,7 @@ export const getPopup = (): HTMLElement => {
 /**
  * Hides the popup that has already been drawn.
  */
-export const hidePopup = () => {
+export const hidePopup = (): void => {
   if (!ticking) {
     requestAnimationFrame(() => {
       ticking = false
@@ -82,7 +82,7 @@ export const hidePopup = () => {
  * Set the textarea in focus.
  * @param textAreaElement Focused textarea dom.
  */
-export const setFocusArea = (textAreaElement: HTMLTextAreaElement) => {
+export const setFocusArea = (textAreaElement: HTMLTextAreaElement): void => {
   focusTextArea = textAreaElement
 }
 
@@ -90,14 +90,14 @@ export const setFocusArea = (textAreaElement: HTMLTextAreaElement) => {
  * Get the textarea in focus.
  * @returns Focused textarea dom.
  */
-export const getFocusArea = () => {
+export const getFocusArea = (): HTMLTextAreaElement => {
   return focusTextArea
 }
 
 /**
  * Set up the same theme as GitHub.
  */
-export const setSameThemeAsGithub = () => {
+export const setSameThemeAsGithub = (): void => {
   const htmlDom = document.getElementsByTagName('html')
   const githubTheme = htmlDom[0].dataset.colorMode
   switch (githubTheme) {
@@ -110,15 +110,17 @@ export const setSameThemeAsGithub = () => {
         checkAndSetThemeColor(lightThemeColor)
       }
       break
-    case 'dark':
+    case 'dark': {
       const darkThemeColor = htmlDom[0].dataset.darkTheme
       checkAndSetThemeColor(darkThemeColor)
       break
+    }
     case 'light':
-    default:
+    default: {
       const lightThemeColor = htmlDom[0].dataset.lightTheme
       checkAndSetThemeColor(lightThemeColor)
       break
+    }
   }
 }
 
@@ -175,7 +177,7 @@ export const Popup: React.FC = () => {
         0,
         caret
       )}:${emojiCode}:${nowText.substr(caret)}`
-      setEmojiCode('');
+      setEmojiCode('')
       hidePopup()
       focusTextArea.focus()
     }
