@@ -1,7 +1,7 @@
   
 {
   "manifest_version": 2,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "short_name": "GitHubEE",
   "name": "GitHub Emoji Extension",
   "description": "Extends the emoji functionality when entering comments on GitHub.",
