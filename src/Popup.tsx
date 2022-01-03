@@ -173,10 +173,10 @@ export const Popup: React.FC = () => {
       const nowText = focusTextArea.value
       const caret = focusTextArea.selectionStart
       // Insert a emoji code in the focused textarea.
-      focusTextArea.value = `${nowText.substr(
+      focusTextArea.value = `${nowText.substring(
         0,
         caret
-      )}:${emojiCode}:${nowText.substr(caret)}`
+      )}:${emojiCode}:${nowText.substring(caret)}`
       setEmojiCode('')
       hidePopup()
       focusTextArea.focus()

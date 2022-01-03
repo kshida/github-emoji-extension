@@ -33,7 +33,7 @@ const initPopupPosition = (textAreaElement: HTMLTextAreaElement) => {
   // Calculate the distance from the textarea to the cursor.
   const position = getCursorOffsetPosition(
     textAreaElement,
-    textAreaElement.value.substr(0, textAreaElement.selectionStart)
+    textAreaElement.value.substring(0, textAreaElement.selectionStart)
   )
 
   // Get the coordinates of the target textarea.
