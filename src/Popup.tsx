@@ -21,7 +21,7 @@ let focusTextArea: HTMLTextAreaElement = null
 const useStyles = makeStyles({
   popup: (props: ThemeStyleProps) => ({
     position: 'fixed',
-    zIndex: 100,
+    zIndex: 1000,
     width: '346px',
     height: '340px',
     padding: '4px',
