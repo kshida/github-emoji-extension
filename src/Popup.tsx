@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { makeStyles } from '@material-ui/core/styles'
 import { EmojiList, RecentlyList } from './List'
 import { Button } from './Button'
@@ -51,7 +51,7 @@ const useStyles = makeStyles({
 export const createPopup = (): void => {
   const app = document.createElement('div')
   document.body.append(app)
-  ReactDOM.render(<Popup />, app)
+  createRoot(app).render(<Popup />)
 }
 
 /**
