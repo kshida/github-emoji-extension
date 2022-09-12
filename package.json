@@ -32,7 +32,7 @@
     "@primer/octicons-react": "^14.2.2",
     "@types/chrome": "^0.0.145",
     "crx-hotreload": "^1.0.6",
-    "ky": "^0.28.5",
+    "ky": "^0.31.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }
