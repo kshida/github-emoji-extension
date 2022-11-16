@@ -1,7 +1,6 @@
-  
 {
   "manifest_version": 3,
-  "version": "1.2.0",
+  "version": "1.3.0",
   "short_name": "GitHubEE",
   "name": "GitHub Emoji Extension",
   "description": "Extends the emoji functionality when entering comments on GitHub.",
@@ -15,13 +14,11 @@
     "service_worker": "background.js"
   },
   "icons": {
-      "16": "icons/icon16.png",
-      "48": "icons/icon48.png",
-      "128": "icons/icon128.png"
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
   },
-  "permissions": [
-    "storage"
-  ],
+  "permissions": ["storage"],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   }
