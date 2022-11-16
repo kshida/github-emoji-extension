@@ -1,5 +1,5 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
+import { styled } from '@mui/styles'
 import {
   EmojiCategorizedProps,
   EmojiProps,
@@ -25,14 +25,12 @@ export const EMOJI_CATEGORY_KEY = {
 const chromeStorageKey = 'emojiProp'
 
 // Style settings for emoji.
-const useStyles = makeStyles({
-  p: {
-    margin: '0px',
-  },
-  img: {
-    height: '30px',
-    width: '30px',
-  },
+const ParagComponent = styled('p')({
+  margin: '0px',
+})
+const ImgComponent = styled('img')({
+  height: '30px',
+  width: '30px',
 })
 
 /**
@@ -264,17 +262,15 @@ export const CategorizeEmojiData = (
  * @returns Return the dom of the emoji.
  */
 export const Emoji: React.FC<EmojiUseStateProps> = (props) => {
-  const classes = useStyles()
   return (
-    <p
-      className={classes.p}
+    <ParagComponent
       data-emoji-key={props.emojiKey}
       data-emoji-path={props.emojiPath}
       onClick={(element) =>
         insertEmoji(element, props.setEmoji, props.setRecentlyEmoji)
       }
     >
-      <img className={classes.img} src={props.emojiPath} />
-    </p>
+      <ImgComponent src={props.emojiPath} />
+    </ParagComponent>
   )
 }

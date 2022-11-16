@@ -1,4 +1,4 @@
-import { getPopup, setFocusArea } from './Popup'
+import { getPopup, getThemeColors, setFocusArea } from './Popup'
 
 /**
  * Set up a listener.
@@ -53,7 +53,11 @@ const initPopupPosition = (textAreaElement: HTMLTextAreaElement) => {
   const isExceedsBrowserHeight = cursorY - 340 <= 0
   const isExceedsBrowserWidth = cursorX + 348 >= screenWidth
 
+  const themes = getThemeColors()
   popup.style.display = 'block'
+  popup.style.backgroundColor = themes.backgroundColor
+  popup.style.borderColor = themes.borderColor
+  popup.style.color = themes.color
   // Adjust the position of the popup if it is out of the browser.
   popup.style.top = isExceedsBrowserHeight
     ? `${cursorY + 25}px`

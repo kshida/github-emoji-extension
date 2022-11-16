@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { makeStyles } from '@material-ui/core/styles'
+import { styled } from '@mui/styles'
 import { EmojiList, RecentlyList } from './List'
 import { Button } from './Button'
 import { RecentlyProps, ThemeStyleProps } from './Interface'
@@ -10,7 +10,6 @@ export const POPUP_ID = 'popup-frame'
 // Initial value of the style.
 let backgroundColorTheme = 'white'
 let borderColorTheme = 'white'
-let fontColorTheme = 'black'
 let buttonColorTheme = 'white'
 // Variables for adjusting the drawing timing of the animation.
 let ticking = false
@@ -18,31 +17,20 @@ let ticking = false
 let focusTextArea: HTMLTextAreaElement = null
 
 // Style settings for popup.
-const useStyles = makeStyles({
-  popup: (props: ThemeStyleProps) => ({
-    position: 'fixed',
-    zIndex: 1000,
-    width: '346px',
-    height: '340px',
-    padding: '4px',
-    backgroundColor: props.backgroundColor,
-    borderColor: props.borderColor,
-    color: props.fontColor,
-    borderRadius: '6px',
-    border: '1px solid',
-    display: 'none',
-  }),
-  category: {},
-  content: {
-    height: '286px',
-    overflow: 'scroll',
-    flexDirection: 'column',
-  },
-  group: {
-    padding: '4px 0 0 7px',
-    borderBottom: '1px solid rgba(0, 0, 0, .15)',
-    height: '38px',
-  },
+const PopupComponent = styled('div')({
+  position: 'fixed',
+  zIndex: 1000,
+  width: '346px',
+  height: '340px',
+  padding: '4px',
+  borderRadius: '6px',
+  border: '1px solid',
+  display: 'none',
+})
+const ContentComponent = styled('div')({
+  height: '286px',
+  overflow: 'scroll',
+  flexDirection: 'column',
 })
 
 /**
@@ -125,6 +113,18 @@ export const setSameThemeAsGithub = (): void => {
 }
 
 /**
+ * Get theme of popup.
+ * @returns Theme of popup.
+ */
+export const getThemeColors = (): ThemeStyleProps => {
+  return {
+    backgroundColor: backgroundColorTheme,
+    borderColor: borderColorTheme,
+    color: buttonColorTheme,
+  }
+}
+
+/**
  * Set the style to match the GitHub theme.
  * @param themeColor Themes set up on GitHub.
  */
@@ -133,20 +133,39 @@ const checkAndSetThemeColor = (themeColor: string) => {
     case 'dark':
       backgroundColorTheme = '#0d1117'
       borderColorTheme = '#30363d'
-      fontColorTheme = '#c9d1d9'
-      buttonColorTheme = 'rgb(201, 209, 217)'
+      buttonColorTheme = '#c9d1d9'
       break
     case 'dark_dimmed':
       backgroundColorTheme = '#22272e'
       borderColorTheme = '#444c56'
-      fontColorTheme = '#adbac7'
-      buttonColorTheme = 'rgb(173, 186, 199)'
+      buttonColorTheme = '#adbac7'
+      break
+    case 'dark_high_contrast':
+      backgroundColorTheme = '#0a0c10'
+      borderColorTheme = '#7a828e'
+      buttonColorTheme = '#f0f3f6'
+      break
+    case 'dark_colorblind':
+    case 'dark_tritanopia':
+      backgroundColorTheme = '#0d1117'
+      borderColorTheme = '#21262d'
+      buttonColorTheme = '#c9d1d9'
+      break
+    case 'light_high_contrast':
+      backgroundColorTheme = '#ffffff'
+      borderColorTheme = '#21262d'
+      buttonColorTheme = '#0e1116'
+      break
+    case 'light_colorblind':
+    case 'light_tritanopia':
+      backgroundColorTheme = '#ffffff'
+      borderColorTheme = '#21262d'
+      buttonColorTheme = '#24292f'
       break
     case 'light':
     default:
       backgroundColorTheme = '#ffffff'
       borderColorTheme = '#e1e4e8'
-      fontColorTheme = '#24292e'
       buttonColorTheme = 'rgba(9, 30, 66, 0.54)'
       break
   }
@@ -160,13 +179,6 @@ export const Popup: React.FC = () => {
   const refArray = [...Array(8)].map(() => React.createRef<HTMLDivElement>())
   const [recentlyList, setRecentlyList] = useState<RecentlyProps[]>([])
   const [emojiCode, setEmojiCode] = useState('')
-  const themeProps: ThemeStyleProps = {
-    backgroundColor: backgroundColorTheme,
-    borderColor: borderColorTheme,
-    fontColor: fontColorTheme,
-    color: buttonColorTheme,
-  }
-  const classes = useStyles(themeProps)
 
   useEffect(() => {
     if (focusTextArea && emojiCode) {
@@ -184,11 +196,11 @@ export const Popup: React.FC = () => {
   }, [emojiCode])
 
   return (
-    <div id={POPUP_ID} className={classes.popup}>
-      <div className={classes.category}>
-        <Button themes={themeProps} refs={refArray} />
+    <PopupComponent id={POPUP_ID}>
+      <div>
+        <Button refs={refArray} />
       </div>
-      <div className={classes.content}>
+      <ContentComponent>
         <RecentlyList
           recentlyEmojis={recentlyList}
           setRecentlyEmoji={setRecentlyList}
@@ -200,7 +212,7 @@ export const Popup: React.FC = () => {
           setEmoji={setEmojiCode}
           refs={refArray}
         />
-      </div>
-    </div>
+      </ContentComponent>
+    </PopupComponent>
   )
 }

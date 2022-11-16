@@ -20,7 +20,6 @@ export type TextArea = {
 export type ThemeStyleProps = {
   backgroundColor: string
   borderColor: string
-  fontColor: string
   color: string
 }
 
@@ -40,11 +39,6 @@ export type EmojiUseState = {
   setEmoji: React.Dispatch<React.SetStateAction<string>>
   setRecentlyEmoji: React.Dispatch<React.SetStateAction<RecentlyProps[]>>
 }
-
-// For category button.
-export type ButtonThemeStyleRefs = {
-  themes: ThemeStyleProps
-} & EmojiRef
 
 // For recently used lists.
 export type RecentlyEmojiProps = {

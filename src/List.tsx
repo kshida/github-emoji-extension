@@ -1,29 +1,27 @@
-import React, { useState, useEffect } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 import ky from 'ky'
+import React, { useState, useEffect } from 'react'
+import { styled } from '@mui/styles'
 import { CategorizeEmojiData, Emoji, EMOJI_CATEGORY_KEY } from './Emoji'
 import { EmojiUseStateRefs, EmojiProps, RecentlyEmojiProps } from './Interface'
 
 // Style settings for list.
-const useStyles = makeStyles({
-  ul: {
-    lineHeight: '1',
-    marginLeft: '8px',
-    display: 'flex',
-    flexWrap: 'wrap',
-    listStyleType: 'none',
-  },
-  li: {
-    padding: '5px',
-    cursor: 'pointer',
-  },
-  categoryTitle: {
-    padding: '5px 8px',
-  },
-  titleFont: {
-    fontSize: '18px',
-    fontWeight: 'bold',
-  },
+const UlComponent = styled('ul')({
+  lineHeight: '1',
+  marginLeft: '8px',
+  display: 'flex',
+  flexWrap: 'wrap',
+  listStyleType: 'none',
+})
+const LiComponent = styled('li')({
+  padding: '5px',
+  cursor: 'pointer',
+})
+const CategoryTitleComponent = styled('div')({
+  padding: '5px 8px',
+})
+const TitleFontComponent = styled('span')({
+  fontSize: '18px',
+  fontWeight: 'bold',
 })
 
 /**
@@ -32,34 +30,30 @@ const useStyles = makeStyles({
  * @returns Return the dom for the recently list.
  */
 export const RecentlyList: React.FC<RecentlyEmojiProps> = (props) => {
-  const classes = useStyles()
   return (
     <div>
       <React.Fragment>
-        <div
+        <CategoryTitleComponent
           id={EMOJI_CATEGORY_KEY.RECENTLY}
-          className={classes.categoryTitle}
           ref={props.refs[0]}
         >
-          <span className={classes.titleFont}>
-            {EMOJI_CATEGORY_KEY.RECENTLY}
-          </span>
-        </div>
-        <ul className={classes.ul}>
+          <TitleFontComponent>{EMOJI_CATEGORY_KEY.RECENTLY}</TitleFontComponent>
+        </CategoryTitleComponent>
+        <UlComponent>
           {props.recentlyEmojis.map((emoji: EmojiProps) => {
             return (
               // eslint-disable-next-line react/jsx-key
-              <li className={classes.li}>
+              <LiComponent>
                 <Emoji
                   setEmoji={props.setEmoji}
                   setRecentlyEmoji={props.setRecentlyEmoji}
                   emojiKey={emoji.emojiKey}
                   emojiPath={emoji.emojiPath}
                 />
-              </li>
+              </LiComponent>
             )
           })}
-        </ul>
+        </UlComponent>
       </React.Fragment>
     </div>
   )
@@ -90,7 +84,6 @@ export const EmojiList: React.FC<EmojiUseStateRefs> = (props) => {
       })
   }, [])
 
-  const classes = useStyles()
   return (
     <div>
       {emojiList
@@ -99,28 +92,27 @@ export const EmojiList: React.FC<EmojiUseStateRefs> = (props) => {
           return (
             // eslint-disable-next-line react/jsx-key
             <React.Fragment>
-              <div
+              <CategoryTitleComponent
                 id={emojis.category}
-                className={classes.categoryTitle}
                 ref={props.refs[index + 1]}
               >
-                <span className={classes.titleFont}>{emojis.category}</span>
-              </div>
-              <ul className={classes.ul}>
+                <TitleFontComponent>{emojis.category}</TitleFontComponent>
+              </CategoryTitleComponent>
+              <UlComponent>
                 {emojis.props.map((emoji: EmojiProps) => {
                   return (
                     // eslint-disable-next-line react/jsx-key
-                    <li className={classes.li}>
+                    <LiComponent>
                       <Emoji
                         setEmoji={props.setEmoji}
                         setRecentlyEmoji={props.setRecentlyEmoji}
                         emojiKey={emoji.emojiKey}
                         emojiPath={emoji.emojiPath}
                       />
-                    </li>
+                    </LiComponent>
                   )
                 })}
-              </ul>
+              </UlComponent>
             </React.Fragment>
           )
         })}
